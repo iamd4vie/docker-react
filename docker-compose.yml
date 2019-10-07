@@ -1,0 +1,26 @@
+version: '3'
+services:
+  #name is variable
+  web:
+    build: 
+      #look into the current working directory
+      #look for the specific file and build the image
+      context: .
+      dockerfile: Dockerfile.dev
+    ports: 
+      - "3000:3000"
+    volumes:
+        #do not map a folder node_modules inside the container
+      - /app/node_modules
+        #map the current folder outside the container
+        #to the app folder inside the container
+      - .:/app
+  testing:
+    build:
+        context: .
+        dockerfile: Dockerfile.dev
+    volumes:
+        - /app/node_modules
+        - .:/app
+    command: ["npm", "run", "test"]
+
